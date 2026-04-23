@@ -1759,7 +1759,7 @@ class FamilyRecipesApp {
     // ==================== CATEGORIES ====================
     updateCategoryCounts() {
         const allRecipes = [...RECIPES_DB, ...this.myRecipes];
-        const categories = ['saludable', 'rapida', 'ninos', 'golosa', 'economica', 'vegetariana', 'fiesta'];
+        const categories = ['saludable', 'rapida', 'ninos', 'golosa', 'economica', 'vegetariana', 'fiesta', 'española', 'italiana', 'asiatica', 'mexicana', 'postres', 'desayunos', 'ensaladas'];
 
         categories.forEach(cat => {
             const count = allRecipes.filter(r => r.categories && r.categories.includes(cat)).length;
