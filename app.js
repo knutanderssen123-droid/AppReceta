@@ -1346,7 +1346,7 @@ class FamilyRecipesApp {
     // ==================== MEMBERS ====================
     renderMembers() {
         const container = document.getElementById('family-members');
-        container.innerHTML = this.members.map((m, i) => `
+        renderMembers() {     const container = document.getElementById('family-members');     container.innerHTML = this.members.map(function(m, i) {         return '<div class="member-card" onclick="app.selectMember(' + i + ')">' +             '<button class="member-delete" onclick="event.stopPropagation(); app.deleteMember(' + i + ')">✕</button>' +             '<span class="member-emoji">' + m.emoji + '</span>' +             '<span class="member-name">' + m.name + '</span>' +             '</div>';     }).join(''); }
             <div class="member-card" onclick="app.selectMember(${i})">
                 <button class="member-delete" onclick="event.stopPropagation(); app.deleteMember(${i})">✕</button>
                 <span class="member-emoji">${m.emoji}</span>
