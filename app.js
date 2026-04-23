@@ -600,7 +600,7 @@ const RECIPES_DB = [
             "Servir calientes con un chorrito de aceite"
         ],
         tip: "Si añades el agua fría desde el principio, las lentejas quedan más tiernas"
-    },
+    } ,
     // ===== COCINA ASIÁTICA =====
     {
         id: 31,
