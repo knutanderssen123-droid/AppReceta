@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🍳 FamilyRecipes</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <!-- SPLASH / SELECTOR DE PERFIL -->
+    <div id="screen-profile" class="screen active">
+        <div class="profile-container">
+            <h1 class="app-logo">🍳 FamilyRecipes</h1>
+            <p class="app-subtitle">¿Quién cocina hoy?</p>
+            <div id="family-members" class="family-grid"></div>
+            <button class="btn-add-member" onclick="app.showAddMember()">
+                <span>+</span> Añadir familiar
+            </button>
+        </div>
+
+        <!-- Modal añadir miembro -->
+        <div id="modal-add-member" class="modal hidden">
+            <div class="modal-content">
+                <h3>Nuevo familiar</h3>
+                <input type="text" id="input-member-name" placeholder="Nombre" maxlength="15">
+                <div class="emoji-picker">
+                    <span onclick="app.selectEmoji('👨')">👨</span>
+                    <span onclick="app.selectEmoji('👩')">👩</span>
+                    <span onclick="app.selectEmoji('👦')">👦</span>
+                    <span onclick="app.selectEmoji('👧')">👧</span>
+                    <span onclick="app.selectEmoji('👴')">👴</span>
+                    <span onclick="app.selectEmoji('👵')">👵</span>
+                    <span onclick="app.selectEmoji('🧑')">🧑</span>
+                    <span onclick="app.selectEmoji('👶')">👶</span>
+                </div>
+                <div class="modal-actions">
+                    <button class="btn-secondary" onclick="app.hideAddMember()">Cancelar</button>
+                    <button class="btn-primary" onclick="app.addMember()">Añadir</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PANTALLA PRINCIPAL -->
+    <div id="screen-main" class="screen">
+        <header class="main-header">
+            <div class="header-left">
+                <span id="current-user-emoji" class="user-emoji">👨</span>
+                <span id="current-user-name" class="user-name">Usuario</span>
+            </div>
+            <h2 class="header-title">🍳</h2>
+            <button class="btn-icon" onclick="app.goToProfile()">👥</button>
+        </header>
+
+        <!-- Navegación principal -->
+        <nav class="main-nav">
+            <button class="nav-btn active" data-tab="ingredients" onclick="app.switchTab('ingredients')">
+                <span class="nav-icon">🥕</span>
+                <span class="nav-text">Ingredientes</span>
+            </button>
+            <button class="nav-btn" data-tab="categories" onclick="app.switchTab('categories')">
+                <span class="nav-icon">📋</span>
+                <span class="nav-text">Categorías</span>
+            </button>
+            <button class="nav-btn" data-tab="favorites" onclick="app.switchTab('favorites')">
+                <span class="nav-icon">❤️</span>
+                <span class="nav-text">Favoritos</span>
+            </button>
+            <button class="nav-btn" data-tab="myrecipes" onclick="app.switchTab('myrecipes')">
+                <span class="nav-icon">📝</span>
+                <span class="nav-text">Mis Recetas</span>
+            </button>
+        </nav>
+
+        <!-- TAB: INGREDIENTES -->
+        <div id="tab-ingredients" class="tab-content active">
+            <div class="search-section">
+                <h3>¿Qué tienes en la nevera? 🧊</h3>
+                <div class="ingredient-input-wrapper">
+                    <input type="text" id="input-ingredient" placeholder="Escribe un ingrediente..." 
+                           onkeypress="if(event.key==='Enter')app.addIngredient()">
+                    <button class="btn-add" onclick="app.addIngredient()">+</button>
+                </div>
+
+                <!-- Ingredientes rápidos -->
+                <div class="quick-ingredients">
+                    <p class="section-label">Añadir rápido:</p>
+                    <div class="quick-grid">
+                        <button class="chip-quick" onclick="app.addQuickIngredient('Pollo')">🍗 Pollo</button>
+                        <button class="chip-quick" onclick="app.addQuickIngredient('Arroz')">🍚 Arroz</button>
+                        <button class="chip-quick" onclick="app.addQuickIngredient('Pasta')">🍝 Pasta</button>
+                        <button class="chip-quick" onclick="app.addQuickIngredient('Huevos')">🥚 Huevos</button>
+                        <button class="chip-quick" onclick="app.addQuickIngredient('Tomate')">🍅 Tomate</button>
+                        <button class="chip-quick" onclick="app.addQuickIngredient('Cebolla')">🧅 Cebolla</button>
+                        <button class="chip-quick" onclick="app.addQuickIngredient('Patata')">🥔 Patata</button>
+                        <button class="chip-quick" onclick="app.addQuickIngredient('Queso')">🧀 Queso</button>
+                        <button class="chip-quick" onclick="app.addQuickIngredient('Leche')">🥛 Leche</button>
+                        <button class="chip-quick" onclick="app.addQuickIngredient('Pan')">🍞 Pan</button>
+                        <button class="chip-quick" onclick="app.addQuickIngredient('Atún')">🐟 Atún</button>
+                        <button class="chip-quick" onclick="app.addQuickIngredient('Jamón')">🥓 Jamón</button>
+                        <button class="chip-quick" onclick="app.addQuickIngredient('Pimiento')">🫑 Pimiento</button>
+                        <button class="chip-quick" onclick="app.addQuickIngredient('Ajo')">🧄 Ajo</button>
+                        <button class="chip-quick" onclick="app.addQuickIngredient('Zanahoria')">🥕 Zanahoria</button>
+                        <button class="chip-quick" onclick="app.addQuickIngredient('Harina')">🌾 Harina</button>
+                        <button class="chip-quick" onclick="app.addQuickIngredient('Mantequilla')">🧈 Mantequilla</button>
+                        <button class="chip-quick" onclick="app.addQuickIngredient('Limón')">🍋 Limón</button>
+                    </div>
+                </div>
+
+                <!-- Ingredientes seleccionados -->
+                <div id="selected-ingredients" class="selected-ingredients hidden">
+                    <p class="section-label">Tus ingredientes:</p>
+                    <div id="ingredients-list" class="chips-container"></div>
+                    <button class="btn-clear" onclick="app.clearIngredients()">🗑️ Limpiar todo</button>
+                </div>
+
+                <!-- Filtro de tipo -->
+                <div id="filter-section" class="filter-section hidden">
+                    <p class="section-label">Tipo de receta (opcional):</p>
+                    <div class="filter-chips">
+                        <button class="chip-filter" data-filter="all" onclick="app.setFilter('all')">🍽️ Todas</button>
+                        <button class="chip-filter" data-filter="saludable" onclick="app.setFilter('saludable')">🥗 Saludable</button>
+                        <button class="chip-filter" data-filter="rapida" onclick="app.setFilter('rapida')">⚡ Rápida</button>
+                        <button class="chip-filter" data-filter="ninos" onclick="app.setFilter('ninos')">👶 Para niños</button>
+                        <button class="chip-filter" data-filter="golosa" onclick="app.setFilter('golosa')">🍫 Golosa</button>
+                        <button class="chip-filter" data-filter="economica" onclick="app.setFilter('economica')">💰 Económica</button>
+                        <button class="chip-filter" data-filter="vegetariana" onclick="app.setFilter('vegetariana')">🌿 Vegetariana</button>
+                        <button class="chip-filter" data-filter="fiesta" onclick="app.setFilter('fiesta')">🎉 Para fiestas</button>
+                    </div>
+                </div>
+
+                <button id="btn-search" class="btn-search hidden" onclick="app.searchRecipes()">
+                    🔍 Buscar recetas
+                </button>
+            </div>
+
+            <!-- Resultados -->
+            <div id="results-section" class="results-section hidden">
+                <h3 id="results-title">Recetas encontradas</h3>
+                <div id="results-list" class="recipes-grid"></div>
+            </div>
+        </div>
+
+        <!-- TAB: CATEGORÍAS -->
+        <div id="tab-categories" class="tab-content">
+            <h3 class="tab-title">Explora por categoría 📋</h3>
+            <div class="categories-grid">
+                <div class="category-card" onclick="app.browseCategory('saludable')" style="--card-color: #4CAF50;">
+                    <span class="category-emoji">🥗</span>
+                    <span class="category-name">Saludable</span>
+                    <span class="category-count" id="count-saludable">0</span>
+                </div>
+                <div class="category-card" onclick="app.browseCategory('rapida')" style="--card-color: #FF9800;">
+                    <span class="category-emoji">⚡</span>
+                    <span class="category-name">Rápidas</span>
+                    <span class="category-count" id="count-rapida">0</span>
+                </div>
+                <div class="category-card" onclick="app.browseCategory('ninos')" style="--card-color: #E91E63;">
+                    <span class="category-emoji">👶</span>
+                    <span class="category-name">Para niños</span>
+                    <span class="category-count" id="count-ninos">0</span>
+                </div>
+                <div class="category-card" onclick="app.browseCategory('golosa')" style="--card-color: #9C27B0;">
+                    <span class="category-emoji">🍫</span>
+                    <span class="category-name">Golosas</span>
+                    <span class="category-count" id="count-golosa">0</span>
+                </div>
+                <div class="category-card" onclick="app.browseCategory('economica')" style="--card-color: #00BCD4;">
+                    <span class="category-emoji">💰</span>
+                    <span class="category-name">Económicas</span>
+                    <span class="category-count" id="count-economica">0</span>
+                </div>
+                <div class="category-card" onclick="app.browseCategory('vegetariana')" style="--card-color: #8BC34A;">
+                    <span class="category-emoji">🌿</span>
+                    <span class="category-name">Vegetariana</span>
+                    <span class="category-count" id="count-vegetariana">0</span>
+                </div>
+                <div class="category-card" onclick="app.browseCategory('fiesta')" style="--card-color: #FF5722;">
+                    <span class="category-emoji">🎉</span>
+                    <span class="category-name">Para fiestas</span>
+                    <span class="category-count" id="count-fiesta">0</span>
+                </div>
+                <div class="category-card" onclick="app.browseCategory('all')" style="--card-color: #607D8B;">
+                    <span class="category-emoji">🍽️</span>
+                    <span class="category-name">Todas</span>
+                    <span class="category-count" id="count-all">0</span>
+                </div>
+            </div>
+
+            <!-- Resultados de categoría -->
+            <div id="category-results" class="results-section hidden">
+                <h3 id="category-results-title"></h3>
+                <div id="category-results-list" class="recipes-grid"></div>
+            </div>
+        </div>
+
+        <!-- TAB: FAVORITOS -->
+        <div id="tab-favorites" class="tab-content">
+            <h3 class="tab-title">Tus favoritos ❤️</h3>
+            <div id="favorites-empty" class="empty-state">
+                <span class="empty-icon">💔</span>
+                <p>Aún no tienes favoritos</p>
+                <p class="empty-hint">Pulsa el ❤️ en cualquier receta para guardarla</p>
+            </div>
+            <div id="favorites-list" class="recipes-grid"></div>
+        </div>
+
+        <!-- TAB: MIS RECETAS -->
+        <div id="tab-myrecipes" class="tab-content">
+            <h3 class="tab-title">Mis recetas familiares 📝</h3>
+            <button class="btn-create-recipe" onclick="app.showCreateRecipe()">
+                ✨ Crear nueva receta
+            </button>
+            <div id="myrecipes-empty" class="empty-state">
+                <span class="empty-icon">📖</span>
+                <p>No has creado recetas aún</p>
+                <p class="empty-hint">¡Guarda las recetas de la abuela!</p>
+            </div>
+            <div id="myrecipes-list" class="recipes-grid"></div>
+        </div>
+    </div>
+
+    <!-- PANTALLA DETALLE RECETA -->
+    <div id="screen-detail" class="screen">
+        <header class="detail-header">
+            <button class="btn-back" onclick="app.goBack()">← Volver</button>
+            <button id="btn-fav-detail" class="btn-fav" onclick="app.toggleFavoriteDetail()">🤍</button>
+        </header>
+        <div id="recipe-detail" class="recipe-detail"></div>
+    </div>
+
+    <!-- PANTALLA CREAR RECETA -->
+    <div id="screen-create" class="screen">
+        <header class="detail-header">
+            <button class="btn-back" onclick="app.goBack()">← Volver</button>
+            <h3 class="header-create-title">Nueva receta</h3>
+        </header>
+        <div class="create-form">
+            <div class="form-group">
+                <label>Nombre de la receta *</label>
+                <input type="text" id="create-name" placeholder="Ej: Tortilla de la abuela">
+            </div>
+            <div class="form-group">
+                <label>Emoji de la receta</label>
+                <div class="emoji-picker-food">
+                    <span class="food-emoji selected" onclick="app.selectFoodEmoji('🍳')">🍳</span>
+                    <span class="food-emoji" onclick="app.selectFoodEmoji('🥘')">🥘</span>
+                    <span class="food-emoji" onclick="app.selectFoodEmoji('🍝')">🍝</span>
+                    <span class="food-emoji" onclick="app.selectFoodEmoji('🍕')">🍕</span>
+                    <span class="food-emoji" onclick="app.selectFoodEmoji('🥗')">🥗</span>
+                    <span class="food-emoji" onclick="app.selectFoodEmoji('🍰')">🍰</span>
+                    <span class="food-emoji" onclick="app.selectFoodEmoji('🍲')">🍲</span>
+                    <span class="food-emoji" onclick="app.selectFoodEmoji('🌮')">🌮</span>
+                    <span class="food-emoji" onclick="app.selectFoodEmoji('🥧')">🥧</span>
+                    <span class="food-emoji" onclick="app.selectFoodEmoji('🍜')">🍜</span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Categorías</label>
+                <div class="filter-chips small">
+                    <button class="chip-filter-create" data-cat="saludable" onclick="app.toggleCreateCat('saludable')">🥗 Saludable</button>
+                    <button class="chip-filter-create" data-cat="rapida" onclick="app.toggleCreateCat('rapida')">⚡ Rápida</button>
+                    <button class="chip-filter-create" data-cat="ninos" onclick="app.toggleCreateCat('ninos')">👶 Niños</button>
+                    <button class="chip-filter-create" data-cat="golosa" onclick="app.toggleCreateCat('golosa')">🍫 Golosa</button>
+                    <button class="chip-filter-create" data-cat="economica" onclick="app.toggleCreateCat('economica')">💰 Económica</button>
+                    <button class="chip-filter-create" data-cat="vegetariana" onclick="app.toggleCreateCat('vegetariana')">🌿 Vegetariana</button>
+                    <button class="chip-filter-create" data-cat="fiesta" onclick="app.toggleCreateCat('fiesta')">🎉 Fiesta</button>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Tiempo de preparación</label>
+                <select id="create-time">
+                    <option value="10 min">10 minutos</option>
+                    <option value="15 min">15 minutos</option>
+                    <option value="20 min">20 minutos</option>
+                    <option value="30 min" selected>30 minutos</option>
+                    <option value="45 min">45 minutos</option>
+                    <option value="1 hora">1 hora</option>
+                    <option value="1.5 horas">1 hora y media</option>
+                    <option value="2 horas">2 horas</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Personas</label>
+                <select id="create-servings">
+                    <option value="1">1 persona</option>
+                    <option value="2">2 personas</option>
+                    <option value="3">3 personas</option>
+                    <option value="4" selected>4 personas</option>
+                    <option value="6">6 personas</option>
+                    <option value="8">8 personas</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Dificultad</label>
+                <div class="difficulty-selector">
+                    <button class="diff-btn selected" data-diff="Fácil" onclick="app.setDifficulty('Fácil')">😊 Fácil</button>
+                    <button class="diff-btn" data-diff="Media" onclick="app.setDifficulty('Media')">🤔 Media</button>
+                    <button class="diff-btn" data-diff="Difícil" onclick="app.setDifficulty('Difícil')">😅 Difícil</button>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Ingredientes * (uno por línea)</label>
+                <textarea id="create-ingredients" rows="5" placeholder="200g de pollo&#10;1 cebolla&#10;2 dientes de ajo&#10;Sal y pimienta"></textarea>
+            </div>
+            <div class="form-group">
+                <label>Pasos * (uno por línea)</label>
+                <textarea id="create-steps" rows="6" placeholder="Cortar el pollo en trozos&#10;Picar la cebolla&#10;Freír todo junto&#10;Añadir sal al gusto"></textarea>
+            </div>
+            <div class="form-group">
+                <label>Consejo de la familia 💡</label>
+                <input type="text" id="create-tip" placeholder="Ej: Queda mejor si reposa un día">
+            </div>
+            <button class="btn-save-recipe" onclick="app.saveRecipe()">
+                💾 Guardar receta
+            </button>
+        </div>
+    </div>
+
+    <!-- TOAST NOTIFICATION -->
+    <div id="toast" class="toast hidden"></div>
+
+    <script src="app.js"></script>
+</body>
+</html>
